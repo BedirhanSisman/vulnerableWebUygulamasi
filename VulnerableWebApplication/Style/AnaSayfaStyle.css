@@ -1,0 +1,52 @@
+﻿body {
+    background-color: lawngreen;
+}
+
+#UstKisim {
+    background-color: dimgrey;
+    height : 200px;
+    width : 100%;
+    text-align : center;   
+}
+
+#SolKisim{
+    background-color: lightgray;
+    height : 500px;
+    width : 300px;
+    float : left;
+    clear : both;
+    padding-top : 150px;
+}
+
+#SagKisim{
+    margin-top : 5px;
+    background-color: lightgray;
+    height : 500px;
+    width : 1283px; 
+    margin-left : 300px;
+    padding-left : 100px;
+    padding-top : 50px;
+}
+
+#AltKisim{
+    margin-top : 5px;
+    background-color: dimgrey;
+    height : 84px;
+    width : 100%;
+    text-align:center;
+    line-height: 75px;
+}
+
+.baslik{
+    font-family:Calibri;
+    font-size:40px;
+    font-weight:bold;
+    color:black;
+    padding-bottom : 20px;
+}
+
+.icerik{
+    font-family:Calibri;
+    font-size:20px;
+    color:black;
+}

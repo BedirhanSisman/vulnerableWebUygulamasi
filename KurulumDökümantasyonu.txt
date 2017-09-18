@@ -1,0 +1,27 @@
+KURULUM DÖKÜMANTASYONU
+
+
+Kurulumun Yapýlabileceði Ýþletim Sistemi
+Zayýf Web Uygulamamýz, "Windows 8.1" iþletim sistemi üzerine kurulmuþtur, Local veritabaný ve host kurmak için SQL Server Management Studio (2016) programý kullanýlmýþtýr. Bu program kendi bilgisayarýmýzý bir sunucu olarak kullanabilmemize ve veritabaný oluþturabilmemize olanak saðlar. "Windows 7", "Windows 8.1" ve "Windows 10" iþletim sistemlerini de desteklemekte olup, "Windows XP" ve "Windows Server 2003" iþletim sistemlerini de desteklememektedir.
+
+Web Sunucu Yazýlýmýnýn Kurulumu (Apache, nginx vs.)
+Farklý iþletim sistemlerinde çalýþabilen hazýr PHP + MySQL + Apache sunucularý saðlayan SQL Server Management Studio (2016) ve Visual Studio Community 2017 programlarý birlikte kullanýlmýþtýr. Bu program kendi bilgisayarýmýzý bir sunucu olarak kullanabilmemize olanak saðlar. (Easy PHP, XAMPP, AppServ vb. programlar da bulunmaktadir.) Web sunucu kýsmýný Visual Studio Community kapsar.
+
+Veritabaný Yazýlýmýnýn Kurulumu (MySQL vs.)
+-----------------------------------------------------
+
+https://www.youtube.com/watch?v=pT4JhNSrDSQ -->SQL Server Management Studio kurulum linki
+
+Veritabanýnýn Kurulumu (bunun için bir SQL dosyasý saðlanmalýdýr)
+------------------------------------------------------
+
+Uygulamanýn Kurulumu 
+------------------------------------------------------
+
+https://www.youtube.com/watch?v=cuG_QvILiis -->Visual Studio 2017 Community kurulum linki
+
+
+
+
+
+

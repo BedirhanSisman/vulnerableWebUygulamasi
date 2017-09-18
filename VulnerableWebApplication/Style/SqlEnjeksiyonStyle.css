@@ -1,0 +1,32 @@
+﻿body {
+}
+
+.baslik{
+    font-size : 20px;
+    font-weight:bold;    
+    margin-top : 5px;
+    margin-bottom : 5px;
+    background-color : deepskyblue;   
+}
+
+.icerik{
+    font-size:12px;    
+}
+
+.aciklama{    
+    width : auto;
+    height:auto;
+    margin-left :400px;
+    margin-right : 400px;
+    background-color : greenyellow;
+    text-align:center;
+    clear:both;
+}
+
+.kodAciklama{    
+    width : auto;
+    height:auto;
+    margin-left :400px;
+    margin-right : 400px;
+    background-color : deepskyblue;   
+}

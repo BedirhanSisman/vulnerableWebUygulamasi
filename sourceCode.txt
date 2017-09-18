@@ -1,0 +1,325 @@
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="AnaSayfa.aspx.cs" Inherits="VulnerableWebApplication.AnaSayfa" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>Koü</title>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <link href="Style/AnaSayfaStyle.css" rel="stylesheet" />
+    <script src="scripts/bootstrap.js"></script>
+    <script src="scripts/jquery-1.9.1.js"></script>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div id="UstKisim">
+            <img src="Image/kouImage.png" height="200" width="200"></img>
+        </div>
+        <div>
+            <div id="SolKisim">
+                <div class="list-group">
+                    <asp:Button ID="btnAnasayfa" class="list-group-item" runat="server" Text="AnaSayfa" OnClick="btnAnasayfa_Click" Width="300" />
+                    <asp:Button ID="btnKurulum" class="list-group-item" runat="server" Text="Kurulum Dökümantasyonu" OnClick="btnKurulum_Click" Width="300" />
+                    <br />
+                    <br />
+                    <asp:Button ID="btnSqlEnjeksiyon" class="list-group-item" runat="server" Text="SQL Enjeksiyonu" OnClick="btnSqlEnjeksiyon_Click" Width="300" />
+                    <asp:Button ID="btnXSS" class="list-group-item" runat="server" Text="XSS" OnClick="btnXSS_Click" Width="300" />
+                    <asp:Button ID="btnKomutEnjeksiyon" class="list-group-item" runat="server" Text="Komut Enjeksiyonu" OnClick="btnKomutEnjeksiyon_Click" Width="300" />
+                </div>
+            </div>
+            <div id="SagKisim">
+                <div class="baslik">
+                    <asp:Label ID="lblBaslik" runat="server"></asp:Label>
+                </div>
+                <div class="icerik">
+                    <asp:Label ID="lblIcerik" runat="server"></asp:Label>
+                </div>
+            </div>
+        </div>
+        <div id="AltKisim">
+            <p style="color: lightgray">Zayýf Web Uygulamasý v1.01</p>
+        </div>
+    </form>
+</body>
+</html>
+
+--------------------------------------------------------------------
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="KomutEnjeksiyon.aspx.cs" Inherits="VulnerableWebApplication.KomutEnjeksiyon" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <script src="scripts/bootstrap.js"></script>
+    <script src="scripts/jquery-1.9.1.js"></script>
+    <link href="Style/SqlEnjeksiyonStyle.css" rel="stylesheet" />
+    <title>Komut Enjeksiyon</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="col-lg-1">
+            <asp:Button ID="btnYardim" class="btn btn-success" runat="server" Text="Yardým" OnClick="btnYardim_Click" />
+            <asp:Button ID="btnGeri" class="btn btn-danger" runat="server" Text="Geri" OnClick="btnGeri_Click" />
+        </div>
+        <div class="col-lg-6">
+            <div class="input-group">
+                <asp:TextBox ID="txtIpAdres" runat="server" class="form-control" placeholder="Ip Adresi Giriniz.."></asp:TextBox>
+                <span class="input-group-btn">
+                    <asp:Button ID="btnPing" runat="server" Text="Ping" class="btn btn-default" OnClick="btnPing_Click" />
+                </span>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <br />
+            <br />
+            <asp:Label ID="Label1" runat="server" Text="Komut Cevabý : <br/> <br/>"></asp:Label>            
+            <asp:Label ID="lblPingCevabý" runat="server" Text=""></asp:Label>
+        </div>
+        <div>
+            <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+            <cc1:ModalPopupExtender ID="mp1" runat="server" PopupControlID="Panel1" TargetControlID="btnYardim"
+                BackgroundCssClass="modalBackground">
+            </cc1:ModalPopupExtender>
+            <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" align="center" Style="display: none">
+                <div class="aciklama">
+                    <div class="baslik">
+                        Komut Enjeksiyon Nedir?
+                    </div>
+                    <div class="icerik">
+                      Genellikle komut (shell) enjeksiyon saldýrýlar SQL enjeksiyon ve XSS saldýrýlarýnýn aksine doðrudan sunucularý hedefleyen bir saldýrý tipidir. Web Uygulamasýnýn komut satýrýný kullanarak uzaktan eriþimle iþletim sistemi, veritabaný yönetim sistemi ve sunucudaki bilgilere eriþimi hedefler.
+                    </div>
+                    <div class="baslik">
+                        Kod Bloðu
+                    </div>
+                    <div class="icerik">
+                        string command = "/c ping " + txtIpAdres.Text; <strong style="color:green"> TextBox'dan ip veya web adres deðerini alarak ping komutuna ekler.</strong> <br />
+
+                        ProcessStartInfo procStartInfo = new ProcessStartInfo("CMD", command); <strong style="color:green"> Ping komutunu process bilgilerine ekler.</strong><br />
+
+                        Process proc = new Process(); <strong style="color:green"> Bir process(iþlem) oluþturur.</strong><br />
+
+                        proc.Start(); <strong style="color:green"> Process'i baþlatýr.</strong><br />
+                    </div>
+                    <div class="baslik">
+                        Kod Açýklamasý
+                    </div>
+                    <div class="icerik">
+                        Yukarýdaki kod ile birlikte herhangi bir sunucu adresine, sunucunun aktif olup olmadýðýný öðrenebilmemiz adýna ping gönderebiliyoruz.Örnek olarak :  <strong>ping www.google.com</strong> <br />
+                        Fakat komut enjeksiyonu açýðý ile birlikte bir kiþi Textbox'a sunucu adresi yanýnda baþka bir komut daha girerse kod bloðu bu komutuda çalýþtýracaktýr. <br />
+                        Örnek olarak <strong>www.google.com && ipconfig</strong> deðerini Textbox'a girerek deneyebilirsiniz. ipconfig komutu ile sunucudaki ip bilgileri elde edinilebilir.
+                    </div>
+                    <div class="baslik">
+                        Çözüm
+                    </div>
+                    <div class="icerik">
+                        Çözüm için Textbox'a özel karakter filtrelemesi yapýyoruz.  <br />
+                        <br />
+                        string[] karakterler = { "'", "<]", ">", ";", "/", "?", "=", "&", "#", "%", "{", "}", "|", "@", "\\" }; <br />
+
+                         foreach (string item in karakterler) { <br />
+                         
+                             if (ipAdres.Contains(item)) { <br />
+                             
+                             Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "Error", "< script>alert('Geçersiz karakter kullandýnýz. Lütfen tekrar deneyiniz.');< /script>"); <br />
+                             lblPingCevabý.Text = ""; <br />
+                             return; } }
+                    </div>
+                </div>
+                <asp:Button ID="btnClose" runat="server" Text="Kapat" class="btn btn-danger" />
+            </asp:Panel>
+        </div>
+    </form>
+</body>
+</html>
+
+--------------------------------------------------------------------
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="SqlEnjeksiyon.aspx.cs" Inherits="VulnerableWebApplication.SqlEnjeksiyon" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <title>SQL Enjeksiyon</title>
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <script src="scripts/bootstrap.js"></script>
+    <script src="scripts/jquery-1.9.1.js"></script>
+    <link href="Style/SqlEnjeksiyonStyle.css" rel="stylesheet" />
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+            <asp:Button ID="btnYardim" class="btn btn-success" runat="server" Text="Yardým" OnClick="btnYardim_Click" />
+            <asp:Button ID="btnGeri" class="btn btn-danger" runat="server" Text="Geri" OnClick="btnGeri_Click" />
+
+            <cc1:ModalPopupExtender ID="mp1" runat="server" PopupControlID="Panel1" TargetControlID="btnYardim"
+                BackgroundCssClass="modalBackground">
+            </cc1:ModalPopupExtender>
+            <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" align="center" Style="display: none">
+                <div class="aciklama">
+                    <div class="baslik">
+                        SQL Enjeksiyon Nedir?
+                    </div>
+                    <div class="icerik">
+                        SQL injection kötü amaçlý, normalde çalýþmamasý gereken SQL komutlarýdýr. SQL injection ya adres satýrýndan ya da input alanýndan yapýlýr. Kötü amaçlý SQL kodu eðer veriler POST ile yollanýyorsa input alanýna (genellikle text kutusuna), GET metodu ile yollanýyorsa adres satýrýna girilir. 
+                    </div>
+                </div>
+                <div class="aciklama">
+                    <div class="baslik">
+                        Kod Bloðu
+                    </div>
+                        <div class="icerik">
+                                string id = Request.QueryString["id"]; <strong style="color:green"> //Query string deðerini id deðiþkenine atar. </strong> <br />
+                                if(id == null) { id = "0"; } <strong style="color:green"> //id deðeri için null kontrolü yapýlýr. </strong> <br />
+                                
+                                <strong style="color:red">komut.CommandText = "SELECT AD, SOYAD FROM Musteri WHERE ID = " + id;</strong>  <strong style="color:green"> //Sql komutu oluþturulur. </strong> <br />
+                                
+                                komut.ExecuteNonQuery(); <strong style="color:green"> //Sql komutu çalýþtýrýlýr. </strong> <br />
+                        </div>
+                </div>
+                <div class="aciklama">
+                    <div class="baslik">
+                        Kod Açýklamasý
+                    </div>
+                    <div class="icerik">
+                        SQL injection kodumuzu inceleyelim: '' OR 1 = 1
+                        '' iki tek týrnak karakteri id deðerine boþ deðer yollamamýzý saðlýyor. Fakat sorgunun boþ deðer döndürüp hata vermesini engellemek için OR komutu 1 = 1 ifadesi ile birleþtirilerek her zaman doðru sonuç döndürecek kriter ekleyerek tüm kiþileri görebiliyoruz. 
+                    </div>
+                </div>
+                <div class="aciklama">
+                    <div class="baslik">
+                        Çözüm
+                    </div>
+                <div class="icerik">
+                    SQL injection çözümü için kodu aþaðýdaki þekilde düzenlemeliyiz.
+                    string id = Request.QueryString["id"];<br />
+                    if(id == null) { id = "0"; }  <br />
+                    <strong style="color:red">komut.CommandText = "SELECT AD, SOYAD FROM Musteri WHERE ID = @id";</strong>
+                    <strong style="color:red">komut.Parameters.AddWithValue("@id", id); </strong>
+                    <br />
+                    komut.ExecuteNonQuery();<br />
+                </div>
+                    </div>
+                <asp:Button ID="btnClose" runat="server" Text="Close" />
+            </asp:Panel>
+        </div>
+
+    </form>
+</body>
+</html>
+
+-------------------------------------------------------------------------
+
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="XSSAcigi.aspx.cs" Inherits="VulnerableWebApplication.XSSAcigi" %>
+
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <link href="Content/bootstrap.css" rel="stylesheet" />
+    <script src="scripts/bootstrap.js"></script>
+    <script src="scripts/jquery-1.9.1.js"></script>
+    <link href="Style/SqlEnjeksiyonStyle.css" rel="stylesheet" />
+    <title>XSS Açýðý</title>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div class="col-lg-1">
+            <asp:Button ID="btnYardim" class="btn btn-success" runat="server" Text="Yardým" OnClick="btnYardim_Click" />
+            <asp:Button ID="btnGeri" class="btn btn-danger" runat="server" Text="Geri" OnClick="btnGeri_Click" />
+        </div>
+        <div class="col-lg-6">
+            <div class="input-group">
+                <asp:TextBox ID="txtMusteriAra" runat="server" class="form-control" placeholder="Aramak icin..."></asp:TextBox>
+                <span class="input-group-btn">
+                    <asp:Button ID="btnMusteriAra" runat="server" Text="Musteri Ara" class="btn btn-default" OnClick="btnMusteriAra_Click" />
+                </span>
+            </div>
+        </div>
+        <div>
+            <asp:Label ID="Label1" runat="server" Text="Aranan Müþteri : "></asp:Label>
+            <asp:Label ID="lblArananMusteri" runat="server" Text=""></asp:Label>
+        </div>
+        <div>
+            <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+            <cc1:ModalPopupExtender ID="mp1" runat="server" PopupControlID="Panel1" TargetControlID="btnYardim"
+                BackgroundCssClass="modalBackground">
+            </cc1:ModalPopupExtender>
+            <asp:Panel ID="Panel1" runat="server" CssClass="modalPopup" align="center" Style="display: none">
+                <div class="aciklama">
+                    <div class="baslik">
+                        Açýklama
+                    </div>
+                    <div class="icerik">
+                        Web uygulamasýnda açýðýn meydana geldiði input/inject point (veri giriþi) alanýna gönderilen kötü niyetli javascript kodlarýnýn, kullanýcýnýn web tarayýcýsýnda çalýþtýrýldýðý bir saldýrý türüdür. Yani Client-Side (kullanýcý taraflý) bir saldýrýdýr. URL adreslerindeki query stringler ve form alanlarýnda sýklýkla görülür. Phishing saldýrýlarýna zemin oluþturur.Genellikle POST ve GET metotlarýnýn kullanýldýðý alanlarda olur. 
+                    </div>                
+                 <div class="baslik">
+                        Kod Bloðu
+                    </div>
+                <div class="icerik">      
+                    <strong style="color: green">//C# kodu</strong> <br />              
+                    lblArananMusteri1.Text = txtMusteriAra1.Text; <br />                    
+                    <strong style="color: green">//HTML kodu</strong> <xmp> <asp:Label ID="lblArananMusteri1" runat="server" Text=""></asp:Label></xmp>
+                    <strong style="color: green">//HTML kodu</strong> <xmp> <asp:TextBox ID="txtMusteriAra1" runat="server" class="form-control" placeholder="Aramak icin..."></asp:TextBox></xmp> 
+                </div>
+                    <div class="baslik">
+                        Kod Açýklamasý
+                    </div>
+                    <div class="icerik">
+                        Textbox'a yazdýðýmýz aranan müþteri adýný, lblArananMusteri1 id'li Label'a yazdýrýyoruz. Fakat sayfamýzda XSS açýðý bulunduðu için text içerisine yazýlan script kodlarý ile sayfamýz kontrol edilebilir oluyor. Aþaðýdaki kodlarý text içerine yazarak XSS açýðýný açýk bir þekilde görebilirsiniz. <br />
+                        <xmp><script>document.body.style.background = 'blue'</script></xmp>
+                        <xmp><script>alert("Selam")</script> <br /></xmp>
+                    </div>
+                     <div class="baslik">
+                        Çözüm
+                    </div>
+                    <div class="icerik">
+                        Çözüm için Textbox'a özel karakter filtrelemesi yapýyoruz.  <br />
+                        <br />
+                        string[] karakterler = { "'", "<]", ">", ";", "/", "?", "=", "&", "#", "%", "{", "}", "|", "@", "\\" }; <br />
+
+                         foreach (string item in karakterler) { <br />
+                         
+                             if (arananMusteri.Contains(item)) { <br />
+                             
+                             Page.ClientScript.RegisterClientScriptBlock(this.GetType(), "Error", "< script>alert('Geçersiz karakter kullandýnýz. Lütfen müþteri adýný giriniz.');< /script>"); <br />
+                             blArananMusteri.Text = ""; <br />
+                             return; } } <br />
+                         Diðer çözümler ise aþaðýki gibidir. <br />
+                        <xmp> <pages validateRequest ="false"> </xmp>
+                        <xmp> <httpRuntime targetFramework="4.5.2" requestValidationMode="2.0" /></xmp>
+                    </div>
+               </div>
+                <asp:Button ID="btnClose" runat="server" Text="Kapat" class="btn btn-danger" />
+            </asp:Panel>
+        </div>
+    </form>
+</body>
+</html>
+----------------------------------------------------------------------
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.Security;
+using System.Web.SessionState;
+
+namespace VulnerableWebApplication
+{
+    public class Global : System.Web.HttpApplication
+    {
+        protected void Application_Start(object sender, EventArgs e)
+        {
+        }
+    }
+}
+------------------------------------------------------------------------
